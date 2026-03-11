@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.neo-border {
+  border: 3px solid black;
+}
+
+body {
+  min-height: max(884px, 100dvh);
+  font-family: "Space Grotesk", sans-serif;
+}
