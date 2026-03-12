@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../services/Api";
 import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -22,6 +23,8 @@ export default function Login() {
 
       localStorage.setItem("token", token);
 
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
@@ -30,8 +33,13 @@ export default function Login() {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-      <div className="flex flex-col flex-1 px-6 pb-12 max-w-md mx-auto w-full">
+    <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden overflow-y-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="flex flex-col flex-1 px-6 pb-12 max-w-md mx-auto w-full"
+      >
         {/* Title */}
         <div className="pt-10 pb-12">
           <h1 className="font-primary tracking-tighter text-[64px] font-bold leading-[0.9] uppercase ">
@@ -109,7 +117,7 @@ export default function Login() {
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Decorative Shapes */}
       <div className="fixed bottom-[-20px] right-[-20px] size-40 bg-accent neo-border -rotate-12 opacity-50"></div>
