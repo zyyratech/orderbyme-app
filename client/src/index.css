@@ -6,6 +6,17 @@
   border: 3px solid black;
 }
 
+.neo-shadow {
+  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+}
+.neo-shadow-sm {
+  box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+}
+.neo-shadow-hover:active {
+  box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 1);
+  transform: translate(2px, 2px);
+}
+
 body {
   min-height: max(884px, 100dvh);
   font-family: "Space Grotesk", sans-serif;

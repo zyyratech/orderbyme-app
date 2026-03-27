@@ -1,20 +1,24 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useState } from "react";
 import "./App.css";
-import Login from "./pages/Login";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Dashboard from "./pages/Dashboard";
+import AuthLayout from "./layouts/AuthLayout";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      {/* Auth Routes */}
+      <Route path="/" element={<AuthLayout />} />
       <Route
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <MainLayout>
+              <Dashboard />
+            </MainLayout>
           </ProtectedRoute>
         }
       />

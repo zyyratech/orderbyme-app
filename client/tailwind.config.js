@@ -17,6 +17,12 @@ export default {
         neo: "4px 4px 0px 0px rgba(0,0,0,1)",
         "neo-lg": "8px 8px 0px 0px rgba(0,0,0,1)",
       },
+      borderRadius: {
+        DEFAULT: "0px",
+        lg: "0px",
+        xl: "0px",
+        full: "9999px",
+      },
     },
   },
   plugins: [],

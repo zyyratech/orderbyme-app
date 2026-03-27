@@ -11,6 +11,7 @@ class AuthService{
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'username' => $data['username'],
             'password' => Hash::make($data['password']),
         ]);
         
@@ -20,11 +21,11 @@ class AuthService{
     }
     
     public function login (array $data){
-        $user = User::where('email', $data['email'])->first();
+        $user = User::where('username', $data['username'])->first();
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'username' => ['The provided credentials are incorrect.'],
             ]);
         }
 
