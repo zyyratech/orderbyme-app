@@ -35,13 +35,11 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         
-        return response()->json($this->authService->login($validated));
+        return response()->json($this->authService->login($validated), 200);
     }
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json(['status' => 'success', 'message' => 'User logged out successfully']);
+        return response()->json($this->authService->logout($request->user()), 200);
     }
 }
