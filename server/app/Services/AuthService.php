@@ -64,7 +64,13 @@ class AuthService{
             ]);
         }
 
-        // Implement forgot password logic here (e.g., send reset link)
+        $status = Password::sendResetLink(
+            ['email' => $data['email']]
+        );
+        return[
+            'status' => $status == Password::RESET_LINK_SENT ? 'success' : 'error',
+            'message' => $status == Password::RESET_LINK_SENT ? 'Reset link sent successfully' : 'Failed to send reset link'
+        ];
 
     }
 

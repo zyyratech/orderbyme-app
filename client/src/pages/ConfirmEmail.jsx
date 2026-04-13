@@ -8,48 +8,17 @@ export default function ConfirmEmail() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const emaill = location.state?.email || "";
-  const [time, setTime] = useState(120); // 2 minutes minus 1 second
+  const email = location.state?.email || "";
+  const [time, setTime] = useState(120); // 2 minutes
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const savedExpiry = localStorage.getItem("reset_expiry");
-
-    if (location.state?.resetTimer) {
-      const newExpiry = Date.now() + 120000;
-
-      localStorage.setItem("reset_expiry", newExpiry);
-      setTime(120);
-    } else if (savedExpiry) {
-      const remaining = Math.floor((savedExpiry - Date.now()) / 1000);
-      setTime(remaining > 0 ? remaining : 0);
-    } else {
-      // 🔥 INI YANG KAMU KURANG
-      const newExpiry = Date.now() + 120000;
-
-      localStorage.setItem("reset_expiry", newExpiry);
-      setTime(120);
-    }
-  }, []);
-
-  useEffect(() => {
     const interval = setInterval(() => {
-      const expiry = localStorage.getItem("reset_expiry");
-
-      if (!expiry) return;
-
-      const remaining = Math.floor((expiry - Date.now()) / 1000);
-      setTime(remaining > 0 ? remaining : 0);
+      setTime((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (time === 0) {
-      localStorage.removeItem("reset_expiry");
-    }
   }, [time]);
 
   const resendLink = async () => {
@@ -57,12 +26,8 @@ export default function ConfirmEmail() {
       setLoading(true);
 
       await api.post("/auth/forgot-password", {
-        email: emaill,
+        email: email,
       });
-
-      const newExpiry = Date.now() + 120000;
-
-      localStorage.setItem("reset_expiry", newExpiry);
 
       setTime(120);
     } catch (error) {
@@ -146,7 +111,7 @@ export default function ConfirmEmail() {
                 {loading
                   ? "SENDING..."
                   : time > 0
-                    ? `RESEND IN ${formatTime()}`
+                    ? `RESEND IN`
                     : "RESEND LINK"}
               </button>
             </div>
@@ -154,7 +119,7 @@ export default function ConfirmEmail() {
               <button
                 onClick={() =>
                   navigate("/forgot-password", {
-                    state: { email: emaill, resetTimer: true },
+                    state: { email: email, resetTimer: true },
                   })
                 }
                 className="underline decoration-2 underline-offset-4 inline-block bg-black text-white px-4 py-1 font-bold uppercase tracking-tighter transition-colors"

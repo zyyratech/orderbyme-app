@@ -15,7 +15,7 @@ export default function ResetPassword() {
   const [searchParams] = useSearchParams();
 
   const token = searchParams.get("token");
-  const emaill = searchParams.get("email");
+  const email = searchParams.get("email");
 
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ export default function ResetPassword() {
       return;
     }
 
-    if (!token || !emaill) {
+    if (!token || !email) {
       alert("Invalid password reset link. Please try again.");
       return;
     }
@@ -56,8 +56,13 @@ export default function ResetPassword() {
         password,
         password_confirmation: confirmPassword,
       });
-      alert("Password reset successful! Please log in with your new password.");
-      navigate("/");
+
+      if (response.status === 200) {
+        alert(
+          "Password reset successful! Please log in with your new password.",
+        );
+        navigate("/login");
+      }
     } catch (error) {
       alert("Failed to reset password. Please try again.");
       // console.log(error);
