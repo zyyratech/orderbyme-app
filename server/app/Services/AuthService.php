@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class AuthService{
     public function register (array $data){
@@ -44,6 +45,16 @@ class AuthService{
         return ['status' => 'success', 'message' => 'User logged out successfully'];
     }
 
+    public function sendResetLink (array $data){
+        $status = Password::sendResetLink(
+            ['email' => $data['email']]
+        );
+        return[
+            'status' => $status == Password::RESET_LINK_SENT ? 'success' : 'error',
+            'message' => $status == Password::RESET_LINK_SENT ? 'Reset link sent successfully' : 'Failed to send reset link'
+        ];
+    }
+
     public function forgotPassword (array $data){
         $user = User::where('email', $data['email'])->first();
 
@@ -58,15 +69,18 @@ class AuthService{
     }
 
     public function resetPassword (array $data){
-        $user = User::where('email', $data['email'])->first();
+       $status = Password::reset(
+            $data,
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->save();
+            }
+        );
 
-        if (!$user) {
-            throw ValidationException::withMessages([
-                'email' => ['No user found with this email address.'],
-            ]);
-        }
-
-        // Implement reset password logic here (e.g., verify token and update password)
+        return [
+            'status' => $status == Password::PASSWORD_RESET ? 'success' : 'error',
+            'message' => $status == Password::PASSWORD_RESET ? 'Password reset successfully' : 'Failed to reset password'
+        ];
 
     }
 

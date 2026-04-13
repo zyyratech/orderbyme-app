@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPasssword";
 import MainLayout from "./layouts/MainLayout";
+import ConfirmEmail from "./pages/ConfirmEmail";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/confirm-email" element={<ConfirmEmail />} />
       <Route
         path="/dashboard"
         element={

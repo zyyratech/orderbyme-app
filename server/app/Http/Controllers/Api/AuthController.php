@@ -42,4 +42,31 @@ class AuthController extends Controller
     {
         return response()->json($this->authService->logout($request->user()), 200);
     }
+    
+
+    public function forgotPassword(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|string|email',
+        ]);
+
+        return response()->json($this->authService->sendResetLink($validated), 200);    
+
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|string|email',
+            'token' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Implement reset password logic here (e.g., verify token, update password)
+
+        return response()->json(['status' => 'success', 'message' => 'Password reset successfully'], 200);
+
+
+    }
+
 }

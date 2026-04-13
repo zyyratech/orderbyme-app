@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/Api";
 import { span } from "motion/react-client";
+import { useEffect } from "react";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ export default function ForgotPassword() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const ForgotPassword = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -34,12 +35,10 @@ export default function ForgotPassword() {
       await api.post("/auth/forgot-password", {
         email: email,
       });
-
-      const response = await api.post("/auth/forgot-password", {
-        email: email,
-      });
+      navigate("/confirm-email", { state: { email: email } });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      alert("Email not found. Please check your email address and try again.");
     } finally {
       setIsLoading(false);
     }
@@ -72,7 +71,7 @@ export default function ForgotPassword() {
             </h1>
           </div>
 
-          <form onSubmit={ForgotPassword} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="email"
@@ -108,6 +107,7 @@ export default function ForgotPassword() {
             <div className="pt-6">
               <button
                 type="submit"
+                disabled={isLoading}
                 className={`w-full bg-accent text-white border-4 border-black shadow-neo-lg h-20 text-2xl font-black uppercase tracking-widest active:translate-x-1 active:translate-y-1 active:shadow-none transition-all cursor-pointer ${
                   isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}

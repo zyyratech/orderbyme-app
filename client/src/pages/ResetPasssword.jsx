@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/Api";
 import { span } from "motion/react-client";
+import { useParams } from "react-router-dom";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
@@ -11,6 +12,10 @@ export default function ResetPassword() {
   const [showPasswordd, setShowPasswordd] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  const token = searchParams.get("token");
+  const emaill = searchParams.get("email");
 
   const navigate = useNavigate();
 
@@ -31,7 +36,7 @@ export default function ResetPassword() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const ResetPassword = async (e) => {
+  const handleReset = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -40,12 +45,16 @@ export default function ResetPassword() {
     setIsLoading(true);
     try {
       const response = await api.post("/auth/reset-password", {
-        password: password,
+        email,
+        token,
+        password,
+        confirmPassword,
       });
       alert("Password reset successful! Please log in with your new password.");
       navigate("/");
     } catch (error) {
-      console.log(error);
+      alert("Failed to reset password. Please try again.");
+      // console.log(error);
     } finally {
       setIsLoading(false);
     }

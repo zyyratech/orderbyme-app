@@ -92,8 +92,8 @@ export default function Register() {
           <div className="size-12"></div>
         </div>
 
-        <main className="flex-1 px-6 py-8">
-          <div className="pt-10 pb-12">
+        <main className="flex-1 px-6">
+          <div className="pt-10 pb-10">
             <h1 className="text-black tracking-tighter text-[64px] font-bold leading-[0.9] text-left uppercase break-words">
               JOIN US
             </h1>
@@ -275,7 +275,7 @@ export default function Register() {
               </p>
             </div>
 
-            <div className="pt-6">
+            <div className="pt-4">
               <button
                 type="submit"
                 className={`w-full bg-accent text-white border-4 border-black shadow-neo-lg h-20 text-2xl font-black uppercase tracking-widest active:translate-x-1 active:translate-y-1 active:shadow-none transition-all cursor-pointer ${
@@ -292,7 +292,7 @@ export default function Register() {
               ALREADY PART OF THE TRIBE?
               <span
                 onClick={() => navagate("/")}
-                className="underline decoration-4 underline-offset-4 bg-black text-white px-2 py-1 ml-1 cursor-pointer"
+                className="underline decoration-2 underline-offset-4 bg-black text-white px-2 py-1 ml-1 cursor-pointer"
               >
                 LOGIN
               </span>

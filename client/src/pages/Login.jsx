@@ -123,7 +123,7 @@ export default function Login() {
                     setErrors({ ...errors, password: "" });
                   }
                 }}
-                placeholder="********"
+                placeholder="••••••••"
                 className={`w-full neo-border bg-white h-16 px-4 text-xl font-bold placeholder:text-gray-400 shadow-neo focus:outline-none ${
                   errors.password ? "" : ""
                 }`}
@@ -168,19 +168,19 @@ export default function Login() {
         </form>
 
         {/* Divider */}
-        <div className="mt-12 space-y-4">
+        <div className="mt-8 space-y-4">
           <div className="flex items-center gap-4">
             <hr className="flex-1 border-2 border-black" />
             <span className="font-bold text-lg">OR</span>
             <hr className="flex-1 border-2 border-black" />
           </div>
           {/* Signup */}
-          <div className="mt-auto pt-10 text-center">
+          <div className="mt-auto text-center">
             <p className="text-lg font-bold">
               NEW HERE?
               <span
                 onClick={() => navigate("/register")}
-                className="underline decoration-4 underline-offset-4 bg-black text-white px-2 py-1 ml-2 cursor-pointer"
+                className="underline decoration-2 underline-offset-4 bg-black text-white px-2 py-1 ml-2 cursor-pointer"
               >
                 SIGN UP
               </span>
