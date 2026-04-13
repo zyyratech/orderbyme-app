@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../services/Api";
 import { span } from "motion/react-client";
 import { useParams } from "react-router-dom";
@@ -42,13 +42,19 @@ export default function ResetPassword() {
     if (!validateForm()) {
       return;
     }
+
+    if (!token || !emaill) {
+      alert("Invalid password reset link. Please try again.");
+      return;
+    }
+
     setIsLoading(true);
     try {
       const response = await api.post("/auth/reset-password", {
         email,
         token,
         password,
-        confirmPassword,
+        password_confirmation: confirmPassword,
       });
       alert("Password reset successful! Please log in with your new password.");
       navigate("/");
@@ -75,7 +81,7 @@ export default function ResetPassword() {
             </h1>
           </div>
 
-          <form onSubmit={ResetPassword} className="space-y-6">
+          <form onSubmit={handleReset} className="space-y-6">
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="new-password"
